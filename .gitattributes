@@ -1,0 +1,6 @@
+# Her yerde LF — Windows'ta CRLF karisimasin, diff'ler temiz kalsin.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.svg text

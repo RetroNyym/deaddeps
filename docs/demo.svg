@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, DejaVu Sans Mono, monospace" font-size="13">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .frame { fill: none; stroke: #30363d; stroke-width: 1; }
+      .bar { fill: #161b22; }
+      .dot-r { fill: #ff5f56; }
+      .dot-y { fill: #ffbd2e; }
+      .dot-g { fill: #27c93f; }
+      .title { fill: #8b949e; font-size: 12px; }
+      .prompt { fill: #7ee787; }
+      .cmd { fill: #e6edf3; }
+      .dim { fill: #8b949e; }
+      .bold { fill: #e6edf3; font-weight: 700; }
+      .red { fill: #ff7b72; }
+      .redb { fill: #ff7b72; font-weight: 700; }
+      .yellow { fill: #d29922; }
+      .cyan { fill: #39c5cf; }
+      .green { fill: #3fb950; }
+      text { white-space: pre; }
+    </style>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="979" height="559" rx="10" class="bg"/>
+  <rect x="0.5" y="0.5" width="979" height="559" rx="10" class="frame"/>
+  <path d="M0.5 10.5 a10 10 0 0 1 10 -10 h959 a10 10 0 0 1 10 10 v29 h-979 z" class="bar"/>
+  <line x1="0.5" y1="39.5" x2="979.5" y2="39.5" stroke="#30363d" stroke-width="1"/>
+  <circle cx="22" cy="20" r="6" class="dot-r"/>
+  <circle cx="42" cy="20" r="6" class="dot-y"/>
+  <circle cx="62" cy="20" r="6" class="dot-g"/>
+  <text x="490" y="24" text-anchor="middle" class="title">~/projects/api — deaddeps</text>
+
+  <text x="20" y="70" class="prompt">$<tspan class="cmd" dx="8">npx deaddeps</tspan></text>
+
+  <text x="20" y="112" class="bold">deaddeps<tspan class="dim" dx="16">finds dead, rotten and unmaintained dependencies</tspan></text>
+  <text x="20" y="134" class="dim">150 packages  (9 direct, 141 transitive)  ·  npm  ·  5.5s</text>
+
+  <text x="20" y="176">  💀 <tspan class="redb">63</tspan><tspan class="red" dx="6">DEAD</tspan><tspan class="dim" dx="18">·</tspan>  🟠 <tspan class="yellow">14</tspan><tspan class="yellow" dx="6">UNMAINTAINED</tspan><tspan class="dim" dx="18">·</tspan>  🟡 <tspan class="yellow">21</tspan><tspan class="yellow" dx="6">STALE</tspan><tspan class="dim" dx="18">·</tspan>  ✅ <tspan class="green">52</tspan><tspan class="green" dx="6">HEALTHY</tspan></text>
+
+  <text x="20" y="210" class="redb">💀 DEAD (63)</text>
+  <text x="20" y="232" class="red">  glob@10.5.0</text>
+  <text x="20" y="252" class="dim">    npm: Old versions of glob are not supported, and contain widely publicized security vulnerabilit…</text>
+  <text x="20" y="272" class="cyan">    1.5B/mo downloads  ·  last publish 7mo ago  ·  single maintainer</text>
+  <text x="20" y="294" class="red">  request@2.88.2</text>
+  <text x="20" y="314" class="dim">    npm: request has been deprecated, see https://github.com/request/request/issues/3142</text>
+  <text x="20" y="334" class="cyan">    55.8M/mo downloads  ·  last publish 6.6y ago  ·  4 maintainers</text>
+  <text x="20" y="356" class="red">  left-pad@1.3.0</text>
+  <text x="20" y="376" class="dim">    npm: use String.prototype.padStart()</text>
+  <text x="20" y="396" class="cyan">    7M/mo downloads  ·  last publish 8.5y ago  ·  3 maintainers</text>
+  <text x="20" y="418" class="dim">    … +48 more — full list: deaddeps --json</text>
+
+  <text x="20" y="452" class="yellow">🟠 UNMAINTAINED (14)</text>
+  <text x="20" y="474">  🟠 <tspan class="yellow">@pkgjs/parseargs@0.11.0</tspan><tspan class="cyan" dx="14">308.6M/mo downloads  ·  last publish 4y ago  ·  single maintainer</tspan></text>
+  <text x="20" y="496">  🟠 <tspan class="yellow">signal-exit@4.1.0</tspan><tspan class="cyan" dx="42">1B/mo downloads  ·  last publish 3.2y ago  ·  2 maintainers</tspan></text>
+  <text x="20" y="518" class="dim">    … +12 more — full list: deaddeps --json</text>
+
+  <text x="20" y="544" class="red">  ⚠ 31B downloads/mo still flow through 77 dead/unmaintained packages — those affect you too.</text>
+</svg>

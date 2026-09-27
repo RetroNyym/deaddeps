@@ -1,0 +1,52 @@
+{
+  "name": "deaddeps",
+  "version": "1.0.0",
+  "description": "Find dead, unmaintained and stale dependencies before they find you. npm, PyPI and crates.io. No API keys.",
+  "keywords": [
+    "dependencies",
+    "dependency-checker",
+    "security",
+    "supply-chain",
+    "unmaintained",
+    "deprecated",
+    "maintenance",
+    "audit",
+    "npm",
+    "pypi",
+    "cargo",
+    "ci"
+  ],
+  "author": "RetroNyym",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "deaddeps": "bin/deaddeps.js"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "scripts": {
+    "start": "node bin/deaddeps.js",
+    "test": "node --test test/*.test.js",
+    "test:watch": "node --test --watch test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RetroNyym/deaddeps.git"
+  },
+  "homepage": "https://github.com/RetroNyym/deaddeps#readme",
+  "bugs": {
+    "url": "https://github.com/RetroNyym/deaddeps/issues"
+  }
+}
