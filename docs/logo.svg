@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="deaddeps">
+  <title>deaddeps</title>
+  <desc>A gravestone with two dependency boxes and the broken link between them.</desc>
+  <rect width="128" height="128" rx="28" fill="#161b22"/>
+  <rect x="0.75" y="0.75" width="126.5" height="126.5" rx="27.25" fill="none" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="24" y="96" width="80" height="14" rx="7" fill="#6e7781"/>
+  <path d="M34 96V62a30 30 0 0 1 60 0v34z" fill="#e6edf3" stroke="#c9d1d9" stroke-width="2"/>
+  <g fill="none" stroke="#d1242f" stroke-width="4" stroke-linecap="round">
+    <rect x="40" y="61" width="16" height="14" rx="4"/>
+    <rect x="72" y="61" width="16" height="14" rx="4"/>
+    <path d="M56 68h4"/>
+    <path d="M72 68h-4"/>
+    <path d="M62 66.5 64 64"/>
+    <path d="M66 69.5 64 72"/>
+  </g>
+</svg>

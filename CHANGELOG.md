@@ -3,6 +3,33 @@
 All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 1.1.0 - 2026-09-27
+
+### Added
+
+- **Logo** (`docs/logo.svg`): a gravestone with two dependency boxes and the
+  broken link between them — the same mark in three places: README,
+  `deaddeps --help` and the HTML report.
+- **ASCII banner** on top of `--help` and on top of the report when stdout is a
+  TTY. Piped and CI output is unchanged, so logs stay clean.
+- **`--html <file>`**: a self-contained visual report — inline SVG logo, inline
+  styles, status filters, package search, score meters, blast-radius callout,
+  light and dark theme. No external requests: the file opens offline, works as
+  an email attachment and as a PR artifact. Exit codes and `--fail-on` are
+  unaffected.
+- `test/logo.test.js` and `test/html.test.js`: banner alignment, logo file ↔
+  source sync, HTML escaping, "no external resources" and an end-to-end
+  `--html` run.
+
+### Fixed
+
+- `npm test` runs on Windows again: `node --test test/*.test.js` relied on a
+  shell glob that `pwsh` does not expand, so Node 18/20 failed with
+  `Could not find ...\test\*.test.js` while Ubuntu passed. The script is now
+  `node --test`, which discovers `test/` itself on every platform and version.
+- The HTML report no longer prints the npm deprecation message twice (reasons
+  list and deprecation box).
+
 ## 1.0.0 - 2026-09-27
 
 First release.

@@ -74,7 +74,7 @@ const NEXT_HINTS = {
 };
 
 /** Bildirilen paketlerin ekosistemlerine gore kisa bir sonraki-adim satiri. */
-function nextSteps(rows) {
+export function nextSteps(rows) {
   const seen = new Set(rows.map((r) => r.ecosystem));
   return [...seen].map((eco) => NEXT_HINTS[eco] ?? 'npm audit').join('  \u00b7  ');
 }
@@ -119,10 +119,16 @@ export function renderText(opts) {
   const width = opts.width ?? 100;
 
   // --- baslik ---
+  // Interaktif oturumda (TTY) basligin ustune logo armasi gelir; pipe/CI
+  // ciktisinda armaz, loglar temiz kalir. Armayi cli.js gecer.
   const ecosystems = [...new Set(sorted.map((r) => r.ecosystem))].filter(Boolean).join(' + ');
-  out.push(
-    `${bold('deaddeps')}  ${dim('finds dead, rotten and unmaintained dependencies')}`
-  );
+  if (Array.isArray(opts.banner) && opts.banner.length) {
+    out.push(...opts.banner);
+  } else {
+    out.push(
+      `${bold('deaddeps')}  ${dim('finds dead, rotten and unmaintained dependencies')}`
+    );
+  }
   const header = [
     `${num(summary.total)} packages  ` +
       `(${num(meta.directCount ?? 0)} direct, ${num(meta.transitiveCount ?? 0)} transitive)`,

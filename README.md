@@ -1,5 +1,9 @@
 # deaddeps
 
+<p align="center">
+  <img src="docs/logo.svg" width="104" alt="deaddeps logo">
+</p>
+
 [![CI](https://github.com/RetroNyym/deaddeps/actions/workflows/ci.yml/badge.svg)](https://github.com/RetroNyym/deaddeps/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/deaddeps?label=npm)](https://www.npmjs.com/package/deaddeps)
 [![dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](https://www.npmjs.com/package/deaddeps)
@@ -70,7 +74,7 @@ or globally:
 npm install -g deaddeps
 ```
 
-Requires Node 18.17+. **Zero runtime dependencies** — the whole tool is ~2000 lines
+Requires Node 18.17+. **Zero runtime dependencies** — the whole tool is ~3000 lines
 of Node standard library. Check `npm ls --omit=dev` on this repo: it is empty.
 
 ## Usage
@@ -80,6 +84,7 @@ deaddeps                     # scan the current directory
 deaddeps ./api               # scan a specific directory
 deaddeps --direct            # only the packages you wrote yourself
 deaddeps --json > report.json
+deaddeps --html report.html   # visual report to open in a browser
 deaddeps --compact           # one line, for CI logs
 deaddeps --show-healthy      # list the healthy ones too
 deaddeps --fail-on dead      # exit 1 if anything is dead (CI gate)
@@ -91,6 +96,7 @@ deaddeps --no-cache          # ignore the disk cache
 | --- | --- |
 | `--direct` | Skip transitive dependencies (scan `package.json` / `Cargo.toml` / `pyproject.toml` only) |
 | `--json` | Machine-readable report, all packages, no truncation |
+| `--html <file>` | Self-contained visual report: logo, filters, score meters — no external requests |
 | `--compact` | Single summary line for CI logs and Slack |
 | `--show-healthy` | Include healthy packages in the text report |
 | `--fail-on <level>` | `dead` \| `unmaintained` \| `stale` \| `any` — exit code 1 when crossed |
@@ -101,6 +107,19 @@ deaddeps --no-cache          # ignore the disk cache
 | `--verbose` | Show the progress line even when stderr is not a TTY |
 
 **Exit codes:** `0` clean · `1` threshold crossed · `2` usage or runtime error.
+
+In an interactive terminal the report opens with the gravestone banner
+(`deaddeps --help` shows it too); when stdout is piped or captured by CI the
+banner is dropped, so logs stay clean.
+
+### Visual report
+
+![deaddeps HTML report](docs/report-preview.png)
+
+`--html report.html` writes a **single self-contained file**: logo, styles,
+status filters, search and score meters are all inlined and nothing is fetched
+from the network. Open it offline, attach it to an email, drop it in a PR —
+it renders the same everywhere, light or dark.
 
 ### CI
 

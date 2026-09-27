@@ -1,6 +1,6 @@
 {
   "name": "deaddeps",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Find dead, unmaintained and stale dependencies before they find you. npm, PyPI and crates.io. No API keys.",
   "keywords": [
     "dependencies",
@@ -38,8 +38,8 @@
   },
   "scripts": {
     "start": "node bin/deaddeps.js",
-    "test": "node --test test/*.test.js",
-    "test:watch": "node --test --watch test/*.test.js"
+    "test": "node --test",
+    "test:watch": "node --test --watch"
   },
   "repository": {
     "type": "git",

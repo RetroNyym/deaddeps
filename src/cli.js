@@ -11,6 +11,8 @@ import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { scan } from './index.js';
 import { renderText, renderJson, renderCompact } from './report.js';
+import { renderHtml } from './html.js';
+import { bannerLines } from './logo.js';
 import { bold, dim, red, green, yellow, cyan, gray, enabled as colorEnabled } from './colors.js';
 
 const HELP = `
@@ -23,6 +25,7 @@ ${bold('EXAMPLES')}
   ${cyan('deaddeps')}                          scan the current directory
   ${cyan('deaddeps ./api --fail-on dead')}     fail CI when something is dead
   ${cyan('deaddeps --json > report.json')}     machine-readable report
+  ${cyan('deaddeps --html report.html')}       visual report to open in a browser
   ${cyan('deaddeps --direct')}                 only the ones you wrote yourself
   ${cyan('deaddeps --compact')}                one-line summary for CI logs
 
@@ -30,6 +33,7 @@ ${bold('OPTIONS')}
   --direct              Only direct dependencies (skip transitive ones)
   --json                Produce a JSON report
   --compact             One-line summary output
+  --html <file>         Write a self-contained HTML report (logo included)
   --show-healthy        List the healthy packages too
   --fail-on <status>    Exit 1 when a threshold is crossed
                         dead | unmaintained | stale | any
@@ -144,6 +148,7 @@ export async function main(argv) {
         direct: { type: 'boolean', default: false },
         json: { type: 'boolean', default: false },
         compact: { type: 'boolean', default: false },
+        html: { type: 'string' },
         'show-healthy': { type: 'boolean', default: false },
         'fail-on': { type: 'string' },
         'min-score': { type: 'string' },
@@ -163,7 +168,8 @@ export async function main(argv) {
   }
 
   if (values.help) {
-    process.stdout.write(HELP.replace(/\n$/, '') + '\n');
+    // Armaya renk colors.js kendi baslar (TERM/CI kosullari); duz metin de ayni hizada.
+    process.stdout.write(bannerLines(readVersion()).join('\n') + HELP.replace(/\n$/, '') + '\n');
     return EXIT_OK;
   }
   if (values.version) {
@@ -236,17 +242,35 @@ export async function main(argv) {
 
   const version = readVersion();
 
+  // --- HTML raporu (GUI): istege bagli ve metin ciktisindan bagimsiz. ---
+  // Basariyla yazildiysa stderr'e bilgi notu duser; stdout pipe'lar temiz kalir.
+  if (values.html) {
+    const outPath = path.resolve(values.html);
+    try {
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      fs.writeFileSync(outPath, renderHtml({ rows, meta, version }), 'utf8');
+      eprint(`  ${green('\u2713')} html report: ${dim(outPath)}`);
+    } catch (err) {
+      eprint(red('error: ') + `cannot write HTML report: ${String(err?.message ?? err)}`);
+      return EXIT_ERROR;
+    }
+  }
+
   if (values.json) {
     process.stdout.write(renderJson(rows, { ...meta, version }) + '\n');
   } else if (values.compact) {
     process.stdout.write(renderCompact(rows) + '\n');
   } else {
+    // TTY'de (ve genislik yeterliyse) basliga logo armasi gelir; borulara
+    // ve CI loglarina hic girmek zorunda degil.
+    const withBanner = process.stdout.isTTY && (process.stdout.columns ?? 100) >= 72;
     process.stdout.write(
       renderText({
         rows,
         meta,
         showHealthy: values['show-healthy'],
         width: process.stdout.columns ?? 100,
+        banner: withBanner ? bannerLines(version) : undefined,
       })
     );
   }
