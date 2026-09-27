@@ -1,5 +1,10 @@
 # deaddeps
 
+[![CI](https://github.com/RetroNyym/deaddeps/actions/workflows/ci.yml/badge.svg)](https://github.com/RetroNyym/deaddeps/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/deaddeps?label=npm)](https://www.npmjs.com/package/deaddeps)
+[![dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)](https://www.npmjs.com/package/deaddeps)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 **Find dead, unmaintained and stale dependencies before they find you.**
 
 Zero dependencies. No API keys. npm, PyPI and crates.io.
@@ -234,12 +239,21 @@ const { rows, meta } = await scan({ root: process.cwd(), directOnly: false });
 ## Development
 
 ```bash
-npm test          # node --test, 54 tests, no test framework, no devDependencies
+npm test          # node --test, no test framework, no devDependencies
 npm start -- .    # run against the current directory
 ```
 
 The project has no dependencies and no build step. `bin/deaddeps.js` runs the source
 directly.
+
+CI runs `npm test` plus a self-scan on Ubuntu and Windows across Node 18, 20 and 22
+(`.github/workflows/ci.yml`). Releases are cut by publishing a GitHub Release; the
+`publish.yml` workflow then publishes through **npm trusted publishing (OIDC)**, so no
+long-lived token exists in this repository.
+
+Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for the ground rules
+(the important one: zero dependencies stays zero) and [SECURITY.md](SECURITY.md) for
+private vulnerability reporting.
 
 ## License
 

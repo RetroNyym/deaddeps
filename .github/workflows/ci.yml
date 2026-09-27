@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: node ${{ matrix.node }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: ['18.17', '20', '22']
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install (no dependencies, keeps the lockfile honest)
+        run: npm ci
+
+      - name: Tests (node --test, no framework)
+        run: npm test
+
+      # dogfooding: the tool has to run on its own repository
+      - name: deaddeps on itself
+        run: node bin/deaddeps.js . --show-healthy
+
+      - name: JSON report parses
+        shell: bash
+        run: |
+          node bin/deaddeps.js . --json > self-report.json
+          node -e "const r = require('./self-report.json'); if (r.tool !== 'deaddeps') { throw new Error('bad report'); } console.log('summary:', JSON.stringify(r.summary));"
+
+      - name: Exit codes behave
+        shell: bash
+        run: |
+          node bin/deaddeps.js . --fail-on dead
+          echo "clean tree => exit 0 (ok)"
