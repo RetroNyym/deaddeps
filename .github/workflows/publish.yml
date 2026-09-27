@@ -25,11 +25,25 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # No registry-url here on purpose: setup-node would write
+      # `//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}` to .npmrc, and
+      # with no token set npm treats auth as configured and skips the OIDC
+      # exchange (ENEEDAUTH/E404 - npm/documentation#1960). deaddeps has no
+      # private dependencies, so the default registry is all we need.
       - uses: actions/setup-node@v6
         with:
-          node-version: '22.14'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '24' # bundles npm >= 11.5.1, required for OIDC
           package-manager-cache: false # never cache a release build
+
+      # npm < 11.5.1 never attempts the OIDC token exchange at all.
+      - name: Check npm supports trusted publishing (>= 11.5.1)
+        run: |
+          v="$(npm -v)"
+          echo "npm $v"
+          if [ "$(printf '%s\n' 11.5.1 "$v" | sort -V | head -n1)" != "11.5.1" ]; then
+            echo "npm $v is older than 11.5.1 - OIDC publish would fail." >&2
+            exit 1
+          fi
 
       - name: Install
         run: npm ci
