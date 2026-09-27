@@ -3,6 +3,22 @@
 All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 1.1.1 - 2026-09-27
+
+### Changed
+
+- **Releases now publish through npm trusted publishing (OIDC).** The GitHub
+  Actions workflow authenticates with a short-lived identity token instead of
+  a long-lived npm token, so publishing keeps working after npm retires
+  2FA-bypass tokens in January 2027. The job pins Node 24 (npm ≥ 11.5.1, the
+  minimum release that speaks OIDC) and fails early if the runner's npm is
+  older — npm 10 and below silently skip the OIDC exchange.
+- The publish job no longer passes `registry-url` to `actions/setup-node`: it
+  wrote an empty `_authToken=${NODE_AUTH_TOKEN}` line that made npm treat auth
+  as configured and skip OIDC altogether (npm/documentation#1960).
+- No CLI behaviour changed in this release; it exists to exercise the new
+  publish path end to end.
+
 ## 1.1.0 - 2026-09-27
 
 ### Added
