@@ -62,10 +62,14 @@ function packageCard(row) {
       ? `<span class="score na" title="no score">—</span>`
       : `<span class="score sc-${scoreClass(score)}" title="score ${score}/100">${score}</span>`;
 
+  const factsText = facts(row).join('  ·  ');
   const reasons = (row.reasons ?? [])
-    // npm mesaji asagidaki kutuda zaten tam haliyle duruyor; listede tekrarlama.
+    // npm mesaji asagidaki kutuda zaten tam haliyle duruyor...
     .filter((r) => !(row.deprecated && r.startsWith('npm: ')))
-    .map((r) => `<li>${esc(r)}</li>`).join('');
+    // ...geri kalan da facts satirinda geciyorsa listeyi uzatmasin.
+    .filter((r) => !factsText.toLowerCase().includes(String(r).toLowerCase()))
+    .map((r) => `<li>${esc(r)}</li>`)
+    .join('');
   const deprecation = row.deprecated
     ? `<p class="depr">npm says: ${esc(String(row.deprecationReason ?? 'deprecated'))}</p>`
     : '';
@@ -78,7 +82,7 @@ function packageCard(row) {
           ${scoreHtml}
         </div>
         <div class="meter"><i class="sc-${scoreClass(score)}" style="width:${score ?? 0}%"></i></div>
-        <p class="facts">${esc(facts(row).join('  ·  '))}</p>
+        <p class="facts">${esc(factsText)}</p>
         ${reasons ? `<ul class="why">${reasons}</ul>` : ''}
         ${deprecation}
       </li>`;

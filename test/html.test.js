@@ -83,6 +83,14 @@ test('html: harici kaynak yok — dosya kendine yetiyor', () => {
   assert.ok(html.includes('xmlns="http://www.w3.org/2000/svg"'));
 });
 
+test('html: sebepler facts satiriyla ayni ise tekrar etmez', () => {
+  const html = renderHtml({ rows: [row('dep-a', 'dead')], meta });
+  // analyze() sebep olarak da "last publish …" ve "single maintainer" uretir;
+  // ikisi de facts satirinda gectigi icin listeye tekrar almamaliyiz.
+  assert.equal((html.match(/last publish/g) || []).length, 1, 'last publish iki kez yazilmis');
+  assert.equal((html.match(/single maintainer/g) || []).length, 1, 'single maintainer iki kez yazilmis');
+});
+
 test('html: filtreler data-status ile eslesir, JS ozellikleri ekler', () => {
   const rows = [row('dep-a', 'dead'), row('fresh', 'healthy')];
   const html = renderHtml({ rows, meta });
